@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:12.1-alpine
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    container_name: pgadmin_TBM
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+    ports:
+      - 5050:80
+    depends_on:
+      - db
