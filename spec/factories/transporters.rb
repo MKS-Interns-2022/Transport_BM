@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :transporter do
-    code { FFaker::Code.rgb_array }
-    name { FFaker::Name.name }
-    address { FFaker::Address.street_address }
-    contact_phone { FFaker::PhoneNumberUA.international_mobile_phone_number }
+    code { Faker::Code.npi }
+    name { Faker::Name.name }
+    address { Faker::Address.street_address }
+    contact_phone { Faker::PhoneNumber.cell_phone_in_e164 }
   end
 end
