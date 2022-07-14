@@ -30,7 +30,7 @@ RSpec.describe "TransportersController", type: :request do
       expect(response).to be_successful
       result = JSON(response.body)
       expect(result['success']).to be_truthy
-      expect(result['data'].count).to eq 5
+      expect(result['data'].count).to eq 3
     end
   end
 
