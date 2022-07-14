@@ -12,12 +12,13 @@ class TransportersController < ApplicationController
     end
 
     def create
-        @tranporter = Transporter.new(transporter_params)
-
-        if @tranporter.save
-            render json: {success: true, data:serialize(@transporter)}, status: :created
+        @transporter = Transporter.new(transporter_params)
+        
+        if @transporter.save
+            data = serialize(@transporter)
+            render json: {success: true, data: data}, status: :created
         else 
-            error = @tranporter.errors.full_messages[0]
+            error = @transporter.errors.full_messages[0]
             render json: {success: false, error: error}, status: :unprocessable_entity
         end
     end
@@ -25,7 +26,8 @@ class TransportersController < ApplicationController
     def update
         
         if @transporter.update(transporter_params)
-            render json: {success: true, data:serialize(@transporter)}, status: :ok
+            data = serialize(@transporter)
+            render json: {success: true, data: data}, status: :ok
         else 
             error = @transporter.errors.full_messages[0]
             render json: {success: false, error: error}, status: :unprocessable_entity
