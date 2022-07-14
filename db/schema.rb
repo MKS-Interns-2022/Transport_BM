@@ -14,21 +14,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_13_074842) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "transporters", force: :cascade do |t|
-    t.string "code"
-    t.string "name"
-    t.string "address"
-    t.string "contact_phone"
-ActiveRecord::Schema[7.0].define(version: 2022_07_13_071334) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "locations", force: :cascade do |t|
     t.string "code", null: false
     t.string "name", null: false
     t.string "location_type", null: false
     t.text "description"
     t.string "ancestry"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "transporters", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "name", null: false
+    t.string "address", null: false
+    t.string "contact_phone", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

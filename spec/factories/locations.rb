@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :location do
-    code { FFaker::Code.npi }
-    name { FFaker::Name.name }
+    code { Faker::Code.npi }
+    name { Faker::Name.name }
     location_type { Location::REGION }
-    description { FFaker::Lorem.paragraph }
+    description { Faker::Lorem.paragraph }
     ancestry { nil }
   end
 end
