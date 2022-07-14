@@ -86,17 +86,16 @@ end
 
       it "updates the requested location" do
         location = Location.create! valid_attributes
-        path location_url(location),
-          params: { location: valid_attributes }, as: :json
+        patch location_url(location),
+          params: { location: new_attributes }, as: :json
         location.reload
-
         expect(new_attributes[:code]).to eq location.code
       end
 
       it "renders a JSON reponse with the Location" do
         location = Location.create! valid_attributes
         patch location_url(location),
-          params: { location: valid_attributes }, as: :json
+          params: { location: new_attributes }, as: :json
         location.reload
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
