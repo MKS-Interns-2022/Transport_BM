@@ -10,6 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+ActiveRecord::Schema[7.0].define(version: 2022_07_13_074842) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "transporters", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.string "address"
+    t.string "contact_phone"
 ActiveRecord::Schema[7.0].define(version: 2022_07_13_071334) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
