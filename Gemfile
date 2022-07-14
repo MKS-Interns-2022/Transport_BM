@@ -44,6 +44,7 @@ group :development, :test do
   gem "ffaker"
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
+  gem 'ancestry'
 end
 
 group :development do
