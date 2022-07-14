@@ -11,6 +11,16 @@ class LocationsController < ApplicationController
     render json: @location
   end
 
+  def create
+    @location = Location.new(location_params)
+
+    if @location.save
+      render json: @location, status: :created, location:@location
+    else
+      render json:@location, status: :unprocessable_entity
+    end
+  end
+
   private
     def set_location
       @location = Location.find(params[:id])
