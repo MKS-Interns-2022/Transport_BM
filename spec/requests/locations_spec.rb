@@ -31,4 +31,16 @@ RSpec.describe "Locations", type: :request do
     end
   end
 
+
+  describe "GET /show" do
+    it 'renders a succesful response' do
+      location = create(:location)
+      get location_url(location), as: :json
+      expect(response).to be_successful
+      result = JSON(response.body)
+      expect(result['id']).to eq location.id
+    end
+  end
+
+
 end
