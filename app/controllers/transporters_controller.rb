@@ -1,0 +1,2 @@
+class TransportersController < ApplicationController
+end
