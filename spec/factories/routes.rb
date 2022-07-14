@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :route do
-    name { "MyString" }
-    region { nil }
-    source { nil }
-    destination { nil }
+    name { Faker::Lorem.word }
+    region factory: :location
+    source factory: :location
+    destination factory: :location
   end
 end
