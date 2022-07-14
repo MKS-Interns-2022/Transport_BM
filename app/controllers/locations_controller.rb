@@ -29,6 +29,10 @@ class LocationsController < ApplicationController
     end
   end
 
+  def destroy
+    @location.destroy
+  end
+
   private
     def set_location
       @location = Location.find(params[:id])
