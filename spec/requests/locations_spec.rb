@@ -43,4 +43,42 @@ RSpec.describe "Locations", type: :request do
   end
 
 
+describe 'POST /create' do
+  context "with valid parameters" do
+    it "creates a new location" do
+      expect {
+        post locations_url,
+          params: { location: valid_attributes }, as: :json
+      }.to change(Location, :count).by(1)
+    end
+
+    it "renders a JSON response with a new location" do
+      post locations_url,
+        params: {location: valid_attributes}, as: :json
+      expect(response).to have_http_status(:created)
+      expect(response.content_type).to match(a_string_including("application/json"))
+    end
+  end
+
+  context "with invalid parameters" do
+    it "doesn't create a new location" do
+      expect{
+        post locations_url,
+          params: { location: invalid_attributes }, as: :json
+      }.to change(Location, :count).by(0)
+    end
+
+    it "renders a JSON response with errors for the new Location" do
+      post locations_url,
+        params: { location: invalid_attributes }, as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.content_type).to match(a_string_including("application/json"))
+    end
+  end
+
+end
+
+
+
+
 end
