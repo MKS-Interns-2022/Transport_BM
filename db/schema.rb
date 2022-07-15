@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_13_074842) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_14_083425) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_13_074842) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "routes", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "region_id", null: false
+    t.bigint "source_id", null: false
+    t.bigint "destination_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["destination_id"], name: "index_routes_on_destination_id"
+    t.index ["region_id"], name: "index_routes_on_region_id"
+    t.index ["source_id"], name: "index_routes_on_source_id"
+  end
+
   create_table "transporters", force: :cascade do |t|
     t.string "code", null: false
     t.string "name", null: false
@@ -33,4 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_13_074842) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "routes", "locations", column: "destination_id"
+  add_foreign_key "routes", "locations", column: "region_id"
+  add_foreign_key "routes", "locations", column: "source_id"
 end
