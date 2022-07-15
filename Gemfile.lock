@@ -228,7 +228,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  active_model_serializers
+  active_model_serializers (~> 0.10.13)
   ancestry
   bootsnap
   database_cleaner-active_record
