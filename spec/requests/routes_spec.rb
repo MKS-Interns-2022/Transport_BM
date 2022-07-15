@@ -130,11 +130,11 @@ RSpec.describe "/routes", type: :request do
   end
 
   # describe "DELETE /destroy" do
-  #   it "destroys the requested class_room" do
-  #     class_room = ClassRoom.create! valid_attributes
+  #   it "destroys the requested route" do
+  #     route = Route.create! valid_attributes
   #     expect {
-  #       delete class_room_url(class_room), headers: valid_headers, as: :json
-  #     }.to change(ClassRoom, :count).by(-1)
+  #       delete route_url(route), headers: valid_headers, as: :json
+  #     }.to change(Route, :count).by(-1)
   #   end
   # end
 end

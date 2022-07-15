@@ -30,9 +30,9 @@ class RoutesController < ApplicationController
     end
   end
 
-  # DELETE /class_rooms/1
+  # DELETE /routes/1
   # def destroy
-  #   @class_room.destroy
+  #   @route.destroy
   # end
 
   private
