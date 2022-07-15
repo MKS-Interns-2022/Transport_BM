@@ -3,7 +3,8 @@ class TransportersController < ApplicationController
 
     def index
         transporters = Transporter.all
-        render json: {success: true, data:transporters}
+        data = serialize(transporters)
+        render json: {success: true, data:data}
     end
 
     def show
