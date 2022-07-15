@@ -1,5 +1,5 @@
 class TransportersController < ApplicationController
-    before_action :set_transporter, only: %i[show update]
+    before_action :set_transporter, only: %i[show update destroy]
 
     def index
         transporters = Transporter.all
@@ -32,6 +32,11 @@ class TransportersController < ApplicationController
             error = @transporter.errors.full_messages[0]
             render json: {success: false, error: error}, status: :unprocessable_entity
         end
+    end
+
+    def destroy
+        @transporter.destroy
+        render json: {success: true, data: serialize(@transporter)}
     end
 
     private
