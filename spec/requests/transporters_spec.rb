@@ -130,5 +130,24 @@ RSpec.describe "TransportersController", type: :request do
     end
   end
 
+  describe 'DELETE /destroy' do
+    it 'destroys the requested transporter' do
+      transporter = create(:transporter)
+      expect do
+        delete transporter_url(transporter), headers: valid_headers, as: :json
+      end.to change(Transporter, :count).by(-1)
+    end
+
+    it 'renders a JSON response with the transporter' do
+      transporter = create(:transporter)
+      delete transporter_url(transporter), headers: valid_headers, as: :json
+      expect(response).to have_http_status(:ok)
+      expect(response.content_type).to match(a_string_including('application/json'))
+      result = JSON(response.body)
+      expect(result['success']).to be_truthy
+      expect(result['data'].count).to eq 5
+    end
+  end
+
 
 end
