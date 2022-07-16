@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :transport_plan_item do
-    route { nil }
-    transport_plan { nil }
+    route factory: :route
+    transport_plan factory: :transport_plan
     quantity { 1 }
-    unit { nil }
-    planned { false }
+    unit factory: :unit_of_measure
+    planned { true }
   end
 end
