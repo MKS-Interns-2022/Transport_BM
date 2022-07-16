@@ -14,7 +14,7 @@ class TransportPlan < ApplicationRecord
   
   validate :validates_location_type
   def validates_location_type
-    
+    return unless region
     return if region.location_type == "Region"
     errors.add(:base, "Location can only be a Region.") if region.location_type != 'Region'
   end
