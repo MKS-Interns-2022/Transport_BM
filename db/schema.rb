@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_15_220450) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_16_110138) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,6 +36,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_15_220450) do
     t.index ["source_id"], name: "index_routes_on_source_id"
   end
 
+  create_table "transport_plan_items", force: :cascade do |t|
+    t.bigint "route_id", null: false
+    t.bigint "transport_plan_id", null: false
+    t.integer "quantity", null: false
+    t.bigint "unit_id", null: false
+    t.boolean "planned", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["route_id"], name: "index_transport_plan_items_on_route_id"
+    t.index ["transport_plan_id"], name: "index_transport_plan_items_on_transport_plan_id"
+    t.index ["unit_id"], name: "index_transport_plan_items_on_unit_id"
+  end
+
   create_table "transport_plans", force: :cascade do |t|
     t.string "reference_no", null: false
     t.string "plan_type", null: false
@@ -54,8 +67,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_15_220450) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "unit_of_measures", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "abreviation", null: false
+    t.string "unit_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "routes", "locations", column: "destination_id"
   add_foreign_key "routes", "locations", column: "region_id"
   add_foreign_key "routes", "locations", column: "source_id"
+  add_foreign_key "transport_plan_items", "routes"
+  add_foreign_key "transport_plan_items", "transport_plans"
+  add_foreign_key "transport_plan_items", "unit_of_measures", column: "unit_id"
   add_foreign_key "transport_plans", "locations", column: "region_id"
 end
