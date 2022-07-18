@@ -1,0 +1,2 @@
+class TransportOffersController < ApplicationController
+end
