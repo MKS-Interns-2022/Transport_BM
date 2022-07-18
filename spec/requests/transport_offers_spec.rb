@@ -3,17 +3,17 @@ require 'rails_helper'
 RSpec.describe "TransportOffers", type: :request do
   let(:valid_attributes) do
     {
-      transport_bid: create(:transport_bid).id,
-      transporter: create(:transporter).id,
+      transport_bid_id: create(:transport_bid).id,
+      transporter_id: create(:transporter).id,
       offer_date: Faker::Date.in_date_period
     }
   end
 
   let(:invalid_attributes) do
     {
-      transport_bid: create(:transport_bid).id,
-      transporter: nil,
-      offer_date: Faker::Date.in_date_period
+      transport_bid_id: create(:transport_bid).id,
+      transporter_id: nil,
+      offer_date: Faker::Date.in_date_period,
     }
   end
 
@@ -49,14 +49,12 @@ RSpec.describe "TransportOffers", type: :request do
     context 'with valid parameters' do
       it 'creates a new transporter' do
         expect do
-          post transport_offers_url,
-          params: { transport_offer: valid_attributes }, headers: valid_headers, as: :json
+          post transport_offers_url, params: {transport_offer: valid_attributes}, headers: valid_headers, as: :json
         end.to change(TransportOffer, :count).by(1)
       end
 
       it 'renders a JSON response with the new transporter' do
-        post transport_offers_url,
-        params: { transport_offer: valid_attributes }, headers: valid_headers, as: :json
+        post transport_offers_url, params: { transport_offer: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including('application/json'))
         result = JSON(response.body)
@@ -68,19 +66,17 @@ RSpec.describe "TransportOffers", type: :request do
     context 'with invalid parameters' do
       it 'does not create a new Transporter' do
         expect do
-          post transport_offers_url,
-          params: { transport_offer: invalid_attributes }, as: :json
+          post transport_offers_url, params: { transport_offer: invalid_attributes }, as: :json
         end.to change(TransportOffer, :count).by(0)
       end
 
       it 'renders a JSON response with errors for the new Transporter' do
-        post transport_offers_url,
-        params: { transport_offer: invalid_attributes }, headers: valid_headers, as: :json
+        post transport_offers_url, params: { transport_offer: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including('application/json'))
         result = JSON(response.body)
         expect(result['success']).to be_falsey
-        expect(result['error']).to eq "Code can't be blank"
+        expect(result['error']).to eq "Transporter must exist"
       end
     end
   end
@@ -89,23 +85,21 @@ RSpec.describe "TransportOffers", type: :request do
     context 'with valid parameters' do
       let(:new_attributes) do
         {
-          offer_date: Faker::Date.in_date_period
+          offer_date: Faker::Date.in_date_period(year: 2019, month: 2)
         }
       end
 
       it 'updates the requested transporter' do
         transport_offer = create(:transport_offer)
         expect(transport_offer.offer_date).not_to eq new_attributes[:offer_date]
-        patch transport_offer_url(transport_offer),
-        params: { transport_offer: new_attributes }, headers: valid_headers, as: :json
+        patch transport_offer_url(transport_offer), params: { transport_offer: new_attributes }, headers: valid_headers, as: :json
         transport_offer.reload
         expect(transport_offer.offer_date).to eq new_attributes[:offer_date]
       end
 
       it 'renders a JSON response with the tranporter' do
         transport_offer = create(:transport_offer)
-        patch transport_offer_url(transport_offer),
-        params: { transport_offer: new_attributes }, headers: valid_headers, as: :json
+        patch transport_offer_url(transport_offer), params: { transport_offer: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including('application/json'))
         result = JSON(response.body)
@@ -117,13 +111,12 @@ RSpec.describe "TransportOffers", type: :request do
     context 'with invalid parameters' do
       it 'renders a JSON response with errors for the transporter' do
         transport_offer = create(:transport_offer)
-        patch transport_offer_url(transport_offer),
-        params: { transport_offer: invalid_attributes }, headers: valid_headers, as: :json
+        patch transport_offer_url(transport_offer), params: { transport_offer: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including('application/json'))
         result = JSON(response.body)
         expect(result['success']).to be_falsey
-        expect(result['error']).to eq "Code can't be blank"
+        expect(result['error']).to eq "Transporter must exist"
       end
     end
   end
