@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_16_110138) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_18_101936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,7 +48,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_16_110138) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["transport_plan_id"], name: "index_transport_bids_on_transport_plan_id"
-    
+  end
+
+  create_table "transport_offers", force: :cascade do |t|
+    t.bigint "transport_bid_id", null: false
+    t.bigint "transporter_id", null: false
+    t.date "offer_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transport_bid_id"], name: "index_transport_offers_on_transport_bid_id"
+    t.index ["transporter_id"], name: "index_transport_offers_on_transporter_id"
+  end
+
   create_table "transport_plan_items", force: :cascade do |t|
     t.bigint "route_id", null: false
     t.bigint "transport_plan_id", null: false
@@ -92,6 +103,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_16_110138) do
   add_foreign_key "routes", "locations", column: "region_id"
   add_foreign_key "routes", "locations", column: "source_id"
   add_foreign_key "transport_bids", "transport_plans"
+  add_foreign_key "transport_offers", "transport_bids"
+  add_foreign_key "transport_offers", "transporters"
   add_foreign_key "transport_plan_items", "routes"
   add_foreign_key "transport_plan_items", "transport_plans"
   add_foreign_key "transport_plan_items", "unit_of_measures", column: "unit_id"
