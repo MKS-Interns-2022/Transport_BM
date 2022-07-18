@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :transport_offer do
-    transport_bid { nil }
-    transporter { nil }
-    offer_date { "2022-07-18" }
+    transport_bid 
+    transporter
+    offer_date { Faker::Date.in_date_period }
   end
 end
