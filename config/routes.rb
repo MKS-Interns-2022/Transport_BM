@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   resources :transporters
 
   resources :transport_bids
+  resources :transport_bid_items
 end
