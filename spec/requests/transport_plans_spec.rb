@@ -2,18 +2,11 @@ require 'rails_helper'
 
 RSpec.describe "TransportPlans", type: :request do
   let(:valid_attributes) do
-    regiona = Location.create({
-      code: Faker::Code.npi,
-      name: Faker::Name.name,
-      location_type: Location::REGION,
-      description: Faker::Lorem.paragraph,
-      ancestry: nil
-    })
 
     {
       reference_no: Faker::Code.npi,
       plan_type: TransportPlan::PLANNED,
-      region_id: regiona[:id]
+      region_id: create(:location).id
     }
   end
 
