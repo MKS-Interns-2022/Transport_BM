@@ -1,20 +1,6 @@
 RSpec.describe "/transport_bids", type: :request do
 
   let(:valid_attributes) do
-    test_location = Location.create({
-      code: Faker::Code.npi,
-      name: Faker::Name.name,
-      location_type: Location::REGION ,
-      description: Faker::Lorem.paragraph,
-      parent: nil
-    })
-
-    test_plan = TransportPlan.create({
-      reference_no: Faker::Code.npi,
-      plan_type: TransportPlan::PLANNED,
-      region_id: test_location[:id]
-    })
-
     {
     reference_no: Faker::Lorem.word,
     description: Faker::Lorem.paragraph,
@@ -23,7 +9,7 @@ RSpec.describe "/transport_bids", type: :request do
     opening_date: Faker::Date.in_date_period,
     status: TransportBid::OPEN,
     bid_bond_amount: Faker::Number.positive,
-    transport_plan_id: test_plan[:id]
+    transport_plan_id: create(:transport_plan).id
     }
   end
 
