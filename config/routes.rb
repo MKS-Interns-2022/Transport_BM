@@ -13,4 +13,7 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   resources :transporters
+
+  resources :transport_bids
+  resources :transport_bid_items
 end

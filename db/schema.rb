@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_16_110138) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_19_060012) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,6 +36,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_16_110138) do
     t.index ["source_id"], name: "index_routes_on_source_id"
   end
 
+  create_table "transport_bid_items", force: :cascade do |t|
+    t.bigint "transport_bid_id", null: false
+    t.bigint "transport_plan_item_id", null: false
+    t.integer "quantity", null: false
+    t.bigint "unit_of_measure_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transport_bid_id"], name: "index_transport_bid_items_on_transport_bid_id"
+    t.index ["transport_plan_item_id"], name: "index_transport_bid_items_on_transport_plan_item_id"
+    t.index ["unit_of_measure_id"], name: "index_transport_bid_items_on_unit_of_measure_id"
+  end
+
   create_table "transport_bids", force: :cascade do |t|
     t.string "reference_no", null: false
     t.text "description"
@@ -48,7 +60,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_16_110138) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["transport_plan_id"], name: "index_transport_bids_on_transport_plan_id"
-    
+  end
+
   create_table "transport_plan_items", force: :cascade do |t|
     t.bigint "route_id", null: false
     t.bigint "transport_plan_id", null: false
@@ -91,6 +104,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_16_110138) do
   add_foreign_key "routes", "locations", column: "destination_id"
   add_foreign_key "routes", "locations", column: "region_id"
   add_foreign_key "routes", "locations", column: "source_id"
+  add_foreign_key "transport_bid_items", "transport_bids"
+  add_foreign_key "transport_bid_items", "transport_plan_items"
+  add_foreign_key "transport_bid_items", "unit_of_measures"
   add_foreign_key "transport_bids", "transport_plans"
   add_foreign_key "transport_plan_items", "routes"
   add_foreign_key "transport_plan_items", "transport_plans"

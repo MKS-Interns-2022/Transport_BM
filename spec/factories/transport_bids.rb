@@ -7,6 +7,6 @@ FactoryBot.define do
     opening_date { Faker::Date.in_date_period }
     status { TransportBid::OPEN }
     bid_bond_amount { Faker::Number.positive }
-    transport_plan { nil }
+    transport_plan factory: :transport_plan
   end
 end
