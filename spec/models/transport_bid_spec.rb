@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe TransportBid, type: :model do
+  subject { create(:transport_bid)}
+
   it{is_expected.to(validate_presence_of(:reference_no))}
+  it{is_expected.to(validate_uniqueness_of(:reference_no).case_insensitive)}
   it{is_expected.to(validate_presence_of(:start_date))}
   it{is_expected.to(validate_presence_of(:end_date))}
   it{is_expected.to(validate_presence_of(:opening_date))}
