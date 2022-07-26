@@ -5,16 +5,16 @@ RSpec.describe "TransportPlans", type: :request do
 
     {
       reference_no: Faker::Code.npi,
-      plan_type: TransportPlan::PLANNED,
+      plan_type: TransportPlan::REGIONAL,
       region_id: create(:location).id
     }
   end
 
   let(:invalid_attributes) do
     {
-      reference_no: Faker::Code.npi,
-      plan_type: TransportPlan::PLANNED,
-      region_id: nil
+      reference_no: nil,
+      plan_type: TransportPlan::NON_REGIONAL,
+      region_id: create(:location).id
     }
   end
 

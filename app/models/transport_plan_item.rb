@@ -5,11 +5,9 @@ class TransportPlanItem < ApplicationRecord
 
   validates :quantity, :planned, presence: true
   validates :quantity, numericality: {only_integer: true, greater_than: 0}
-  validate :validates_plan_type
 
-  def validates_plan_type
-    return unless transport_plan
-    return if transport_plan.plan_type == TransportPlan::PLANNED
-    errors.add(:base, "PlanType can't be unplanned.") if transport_plan.plan_type != TransportPlan::PLANNED
-  end
+  delegate(:name, to: :route, prefix: true)
+  delegate(:reference_no, to: :transport_plan, prefix: true)
+  delegate(:name, to: :unit, prefix: true)
+
 end
