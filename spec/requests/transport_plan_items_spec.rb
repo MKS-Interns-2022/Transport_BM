@@ -2,56 +2,22 @@ require 'rails_helper'
 
 RSpec.describe "TransportPlanItems", type: :request do
   let(:valid_attributes) do
-    source = Location.create({
-      code: Faker::Code.npi,
-      name: Faker::Name.name,
-      location_type: Location::REGION,
-      description: Faker::Lorem.paragraph,
-      ancestry: nil
-    })
-
-    destination = Location.create({
-      code: Faker::Code.npi,
-      name: Faker::Name.name,
-      location_type: Location::ZONE,
-      description: Faker::Lorem.paragraph,
-      parent: source
-    })
-
-    route = Route.create({
-      name: Faker::Lorem.word,
-      region_id: source[:id],
-      source_id: source[:id],
-      destination_id: destination[:id]
-    })
-
-    plan = TransportPlan.create({
-      reference_no: Faker::Code.npi,
-      plan_type: TransportPlan::PLANNED,
-      region_id: source[:id]
-    })
-
-    uom = UnitOfMeasure.create({
-      name: Faker::Name.name,
-      abreviation: Faker::Lorem.characters(number: 4),
-      unit_type: UnitOfMeasure::WEIGHT
-    })
 
     {
-      route_id: route[:id],
-      transport_plan_id: plan[:id],
+      route_id: create(:route).id,
+      transport_plan_id: create(:transport_plan).id,
       quantity: 1,
-      unit_id: uom[:id],
+      unit_id: create(:unit_of_measure).id,
       planned: true
     }
   end
 
   let(:invalid_attributes) do
     {
-      route_id: nil,
-      transport_plan_id: nil,
-      quantity: 1,
-      unit_id: nil,
+      route_id: create(:route).id,
+      transport_plan_id: create(:transport_plan).id,
+      quantity: "num",
+      unit_id: create(:unit_of_measure).id,
       planned: nil
     }
   end
@@ -100,7 +66,7 @@ describe 'POST /create' do
       expect{
         post transport_plan_items_url,
           params: { transport_plan_item: invalid_attributes }, as: :json
-      }.to change(TransportPlan, :count).by(0)
+      }.to change(TransportPlanItem, :count).by(0)
     end
 
     it "renders a JSON response with errors for the new Transport Plan" do
