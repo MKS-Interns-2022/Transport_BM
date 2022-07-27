@@ -7,27 +7,35 @@ class TransportPlansController < ApplicationController
         render json: { success: true, data: data}
     end
 
+    def children
+        parent = Location.find(params[:id])
+        render json: { success: true, data: serialize(parent.children) }
+    end
+
     def show
         render json: @transport_plan
     end
 
     def create
         @transport_plan = TransportPlan.new(transport_plan_params)
-
+        data = ActiveModelSerializers::SerializableResource.new(@transport_plan)
         if @transport_plan.save
-            render json: @transport_plan, status: :created, location:@transport_plan
+          render json: { success: true, data: data}, status: :created
         else
-            render json:@transport_plan, status: :unprocessable_entity
+          errors = ActiveModelSerializers::SerializableResource.new(@transport_plan.errors.full_messages[0])
+          render json: {success: false, error: errors}, status: :unprocessable_entity
         end
-    end
-
-    def update
+      end
+    
+      def update
         if @transport_plan.update(transport_plan_params)
-        render json: @transport_plan
+          data = ActiveModelSerializers::SerializableResource.new(@transport_plan)
+          render json: {success: true, data: data}, status: :ok
         else
-        render json: @transport_plan.errors, status: :unprocessable_entity
+          errors = ActiveModelSerializers::SerializableResource.new(@transport_plan.errors.full_messages[0])
+          render json: {success: false, error: errors}, status: :unprocessable_entity
         end
-    end
+      end
 
     private
     def set_transport_plan

@@ -14,19 +14,22 @@ class RoutesController < ApplicationController
 
   def create
     @route = Route.new(route_params)
-
+    data = ActiveModelSerializers::SerializableResource.new(@route)
     if @route.save
-      render json: @route, status: :created, location: @route
+      render json: { success: true, data: data}, status: :created
     else
-      render json: @route.errors, status: :unprocessable_entity
+      errors = ActiveModelSerializers::SerializableResource.new(@route.errors.full_messages[0])
+      render json: {success: false, error: errors}, status: :unprocessable_entity
     end
   end
 
   def update
     if @route.update(route_params)
-      render json: @route
+      data = ActiveModelSerializers::SerializableResource.new(@route)
+      render json: {success: true, data: data}, status: :ok
     else
-      render json: @route.errors, status: :unprocessable_entity
+      errors = ActiveModelSerializers::SerializableResource.new(@transport_bid.errors.full_messages[0])
+      render json: {success: false, error: errors}, status: :unprocessable_entity
     end
   end
 

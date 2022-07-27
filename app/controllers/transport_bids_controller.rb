@@ -14,19 +14,22 @@ class TransportBidsController < ApplicationController
 
   def create
     @transport_bid = TransportBid.new(transport_bid_params)
-
+    data = ActiveModelSerializers::SerializableResource.new(@transport_bid)
     if @transport_bid.save
-      render json: @transport_bid, status: :created, location: @transport_bid
+      render json: { success: true, data: data}, status: :created
     else
-      render json: @transport_bid.errors, status: :unprocessable_entity
+      errors = ActiveModelSerializers::SerializableResource.new(@transport_bid.errors.full_messages[0])
+      render json: {success: false, error: errors}, status: :unprocessable_entity
     end
   end
 
   def update
     if @transport_bid.update(transport_bid_params)
-      render json: @transport_bid
+      data = ActiveModelSerializers::SerializableResource.new(@transport_bid)
+      render json: {success: true, data: data}, status: :ok
     else
-      render json: @transport_bid.errors, status: :unprocessable_entity
+      errors = ActiveModelSerializers::SerializableResource.new(@transport_bid.errors.full_messages[0])
+      render json: {success: false, error: errors}, status: :unprocessable_entity
     end
   end
 

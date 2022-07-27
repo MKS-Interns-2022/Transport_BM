@@ -13,21 +13,24 @@ class TransportPlanItemsController < ApplicationController
 
     def create
         @transport_plan_item = TransportPlanItem.new(transport_plan_item_params)
-
+        data = ActiveModelSerializers::SerializableResource.new(@transport_plan_item)
         if @transport_plan_item.save
-            render json: @transport_plan_item, status: :created, location:@transport_plan_item
+          render json: { success: true, data: data}, status: :created
         else
-            render json:@transport_plan_item, status: :unprocessable_entity
+          errors = ActiveModelSerializers::SerializableResource.new(@transport_plan_item.errors.full_messages[0])
+          render json: {success: false, error: errors}, status: :unprocessable_entity
         end
-    end
-
-    def update
+      end
+    
+      def update
         if @transport_plan_item.update(transport_plan_item_params)
-        render json: @transport_plan_item
+          data = ActiveModelSerializers::SerializableResource.new(@transport_plan_item)
+          render json: {success: true, data: data}, status: :ok
         else
-        render json: @transport_plan_item.errors, status: :unprocessable_entity
+          errors = ActiveModelSerializers::SerializableResource.new(@transport_plan_item.errors.full_messages[0])
+          render json: {success: false, error: errors}, status: :unprocessable_entity
         end
-    end
+      end
 
     private
     def set_transport_plan_item
