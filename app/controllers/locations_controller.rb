@@ -7,25 +7,33 @@ class LocationsController < ApplicationController
     render json: { success: true, data: data}
   end
 
+  def children
+    parent = Location.find(params[:id])
+    render json: { success: true, data: serialize(parent.children) }
+  end
+
   def show
     render json: @location
   end
 
   def create
     @location = Location.new(location_params)
-
+    data = ActiveModelSerializers::SerializableResource.new(@location)
     if @location.save
-      render json: @location, status: :created, location:@location
+      render json: { success: true, data: data}, status: :created
     else
-      render json:@location, status: :unprocessable_entity
+      errors = ActiveModelSerializers::SerializableResource.new(@location.errors.full_messages[0])
+      render json: {success: false, error: errors}, status: :unprocessable_entity
     end
   end
 
   def update
     if @location.update(location_params)
-      render json: @location
+      data = ActiveModelSerializers::SerializableResource.new(@location)
+      render json: {success: true, data: data}, status: :ok
     else
-      render json: @location.errors, status: :unprocessable_entity
+      errors = ActiveModelSerializers::SerializableResource.new(@location.errors.full_messages[0])
+      render json: {success: false, error: errors}, status: :unprocessable_entity
     end
   end
 

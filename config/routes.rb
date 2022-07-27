@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   # get 'route/destination:references'
   resources :routes
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  resources :locations
+  resources :locations, except: %i[destroy] do
+    member do
+      get 'children'
+    end
+  end
   resources :transport_plans
   resources :transport_plan_items
   resources :unit_of_measures

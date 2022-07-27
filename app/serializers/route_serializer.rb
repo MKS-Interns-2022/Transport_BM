@@ -1,6 +1,3 @@
 class RouteSerializer < ActiveModel::Serializer
-    attributes :id, :name
-    has_one :region
-    has_one :source
-    has_one :destination
+    attributes :id, :name, :region_id, :region_name, :source_id, :source_name, :destination_id, :destination_name
   end

@@ -10,5 +10,7 @@ class TransportBid < ApplicationRecord
   validates :status, inclusion: { in: STATUSES }
   validates :reference_no, uniqueness: {case_sensitive: false}
 
+  delegate(:reference_no, to: :transport_plan, prefix: true)
+
 
 end

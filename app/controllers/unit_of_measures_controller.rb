@@ -12,22 +12,25 @@ class UnitOfMeasuresController < ApplicationController
     end
 
     def create
-        @unit_of_measure = UnitOfMeasure.new(unit_of_measure_params)
-
+        @unit_of_measure = TransportBid.new(unit_of_measure_params)
+        data = ActiveModelSerializers::SerializableResource.new(@unit_of_measure)
         if @unit_of_measure.save
-            render json: @unit_of_measure, status: :created, location:@unit_of_measure
+          render json: { success: true, data: data}, status: :created
         else
-            render json:@unit_of_measure, status: :unprocessable_entity
+          errors = ActiveModelSerializers::SerializableResource.new(@unit_of_measure.errors.full_messages[0])
+          render json: {success: false, error: errors}, status: :unprocessable_entity
         end
-    end
-
-    def update
+      end
+    
+      def update
         if @unit_of_measure.update(unit_of_measure_params)
-        render json: @unit_of_measure
+          data = ActiveModelSerializers::SerializableResource.new(@unit_of_measure)
+          render json: {success: true, data: data}, status: :ok
         else
-        render json: @unit_of_measure.errors, status: :unprocessable_entity
+          errors = ActiveModelSerializers::SerializableResource.new(@unit_of_measure.errors.full_messages[0])
+          render json: {success: false, error: errors}, status: :unprocessable_entity
         end
-    end
+      end
 
     private
     def set_unit_of_measure
