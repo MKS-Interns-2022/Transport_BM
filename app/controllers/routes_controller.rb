@@ -28,7 +28,7 @@ class RoutesController < ApplicationController
       data = ActiveModelSerializers::SerializableResource.new(@route)
       render json: {success: true, data: data}, status: :ok
     else
-      errors = ActiveModelSerializers::SerializableResource.new(@transport_bid.errors.full_messages[0])
+      errors = ActiveModelSerializers::SerializableResource.new(@route.errors.full_messages[0])
       render json: {success: false, error: errors}, status: :unprocessable_entity
     end
   end

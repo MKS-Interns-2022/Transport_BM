@@ -12,7 +12,7 @@ class UnitOfMeasuresController < ApplicationController
     end
 
     def create
-        @unit_of_measure = TransportBid.new(unit_of_measure_params)
+        @unit_of_measure = UnitOfMeasure.new(unit_of_measure_params)
         data = ActiveModelSerializers::SerializableResource.new(@unit_of_measure)
         if @unit_of_measure.save
           render json: { success: true, data: data}, status: :created
