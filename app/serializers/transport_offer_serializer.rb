@@ -1,5 +1,3 @@
 class TransportOfferSerializer < ActiveModel::Serializer
-  attributes :id, :offer_date
-  has_one :transport_bid
-  has_one :transporter
+  attributes :id, :offer_date, :transport_bid_reference_no, :transporter_code
 end
